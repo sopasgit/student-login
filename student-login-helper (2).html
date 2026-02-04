@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login Helper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .step-indicator {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        #scanner-section {
+            margin: 30px 0;
+        }
+
+        #video {
+            width: 100%;
+            max-width: 500px;
+            height: 375px;
+            border-radius: 20px;
+            border: 5px solid #667eea;
+            background: #000;
+            object-fit: cover;
+        }
+
+        #credentials-section {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-message {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .credential-box {
+            background: #f0f4ff;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border: 3px solid #667eea;
+        }
+
+        .credential-label {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .credential-value {
+            font-size: 2em;
+            color: #333;
+            font-weight: bold;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+
+        .big-button {
+            font-size: 1.8em;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .big-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .big-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button {
+            background: #4CAF50;
+            color: white;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .copy-button:hover {
+            background: #45a049;
+        }
+
+        .copy-button.copied {
+            background: #2196F3;
+            animation: pulse 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .clever-button {
+            background: #FF6B6B;
+            color: white;
+            margin-top: 30px;
+        }
+
+        .clever-button:hover {
+            background: #EE5A5A;
+        }
+
+        .start-button {
+            background: #667eea;
+            color: white;
+            font-size: 2em;
+            padding: 25px 50px;
+        }
+
+        .start-button:hover {
+            background: #5568d3;
+        }
+
+        .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .helper-text {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.3em;
+            color: #856404;
+        }
+
+        .paste-instruction {
+            background: #e7f3ff;
+            border: 3px solid #2196F3;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1.2em;
+            color: #0d47a1;
+        }
+
+        .keyboard-visual {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 0 5px;
+            font-family: monospace;
+            font-weight: bold;
+            border: 2px solid #666;
+            box-shadow: 0 3px 0 #666;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #667eea, transparent);
+            margin: 30px 0;
+        }
+
+        #loading {
+            display: none;
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .error-message {
+            background: #ffebee;
+            border: 3px solid #f44336;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.3em;
+        }
+
+        .restart-button {
+            background: #667eea;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .checkmark {
+            color: #4CAF50;
+            font-size: 1.2em;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            .big-button {
+                font-size: 1.5em;
+                padding: 15px 30px;
+            }
+            .credential-value {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎒 Student Login Helper</h1>
+        
+        <div id="welcome-section">
+            <div class="step-indicator">Step 1: Scan Your Badge</div>
+            <p style="font-size: 1.5em; margin: 20px 0; color: #666;">Hold your badge up to the camera!</p>
+            <button class="big-button start-button" onclick="startScanning()">
+                <span class="icon">📷</span>Start Camera
+            </button>
+        </div>
+
+        <div id="scanner-section" style="display: none;">
+            <div class="step-indicator">Hold your badge steady...</div>
+            <video id="video" autoplay playsinline></video>
+            <div id="loading">Looking for QR code...</div>
+            <canvas id="canvas" style="display: none;"></canvas>
+        </div>
+
+        <div id="credentials-section">
+            <div class="welcome-message">👋 Welcome, <span id="student-name"></span>!</div>
+            
+            <div class="helper-text">
+                📋 Click the green buttons to copy, then paste into the login on the right →
+            </div>
+
+            <div class="credential-box">
+                <div class="credential-label">📧 Your Username</div>
+                <div class="credential-value" id="username-display"></div>
+                <button class="big-button copy-button" id="copy-username-btn" onclick="copyUsername()">
+                    <span class="icon">📋</span>Copy Username
+                </button>
+            </div>
+
+            <div class="credential-box">
+                <div class="credential-label">🔑 Your Password</div>
+                <div class="credential-value" id="password-display"></div>
+                <button class="big-button copy-button" id="copy-password-btn" onclick="copyPassword()">
+                    <span class="icon">📋</span>Copy Password
+                </button>
+            </div>
+
+            <div class="paste-instruction">
+                <strong>How to Paste:</strong><br>
+                Click in the box on the login page, then press 
+                <span class="keyboard-visual">Ctrl</span> + <span class="keyboard-visual">V</span>
+                <br>or right-click and choose "Paste"
+            </div>
+
+            <div class="divider"></div>
+
+            <button class="big-button clever-button" onclick="openClever()">
+                <span class="icon">📚</span>Open Clever
+            </button>
+
+            <button class="big-button restart-button" onclick="restartApp()">
+                <span class="icon">🔄</span>Scan Another Badge
+            </button>
+        </div>
+
+        <div id="error-section" style="display: none;">
+            <div class="error-message" id="error-message"></div>
+            <button class="big-button restart-button" onclick="restartApp()">
+                <span class="icon">🔄</span>Try Again
+            </button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script>
+        let stream = null;
+        let scanning = false;
+        let studentData = {
+            username: '',
+            password: ''
+        };
+
+        async function startScanning() {
+            try {
+                document.getElementById('welcome-section').style.display = 'none';
+                document.getElementById('scanner-section').style.display = 'block';
+                document.getElementById('loading').style.display = 'block';
+
+                const video = document.getElementById('video');
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' }
+                });
+                video.srcObject = stream;
+                scanning = true;
+                
+                video.onloadedmetadata = () => {
+                    scanQRCode();
+                };
+            } catch (err) {
+                showError('Camera access denied. Please allow camera access and try again.');
+                console.error('Camera error:', err);
+            }
+        }
+
+        function scanQRCode() {
+            if (!scanning) return;
+
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (code) {
+                    handleQRCode(code.data);
+                    return;
+                }
+            }
+
+            requestAnimationFrame(scanQRCode);
+        }
+
+        function handleQRCode(data) {
+            scanning = false;
+            
+            try {
+                // Parse as username:password format (simple format without email suffix)
+                const parts = data.split(':');
+                if (parts.length >= 2) {
+                    studentData.username = parts[0].trim();
+                    studentData.password = parts.slice(1).join(':').trim();
+                } else {
+                    throw new Error('Invalid QR code format');
+                }
+
+                if (!studentData.username || !studentData.password) {
+                    throw new Error('Missing username or password');
+                }
+
+                stopCamera();
+                showCredentials();
+            } catch (err) {
+                showError('Could not read QR code. Please make sure it contains username:password format.');
+                console.error('QR parse error:', err);
+            }
+        }
+
+        function showCredentials() {
+            document.getElementById('scanner-section').style.display = 'none';
+            document.getElementById('credentials-section').style.display = 'block';
+            
+            // Use username as the display name
+            document.getElementById('student-name').textContent = studentData.username;
+            document.getElementById('username-display').textContent = studentData.username;
+            document.getElementById('password-display').textContent = studentData.password;
+        }
+
+        async function copyUsername() {
+            try {
+                await navigator.clipboard.writeText(studentData.username);
+                const btn = document.getElementById('copy-username-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span class="icon">✅</span>Username Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                alert('Copy failed. Please try again.');
+                console.error('Copy error:', err);
+            }
+        }
+
+        async function copyPassword() {
+            try {
+                await navigator.clipboard.writeText(studentData.password);
+                const btn = document.getElementById('copy-password-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span class="icon">✅</span>Password Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                alert('Copy failed. Please try again.');
+                console.error('Copy error:', err);
+            }
+        }
+
+        function openClever() {
+            // Open Clever in a new tab
+            window.open(
+                'https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&district_id=56d75df365a6bd0100000d35&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=abf28bf2d4128d386d6f4838c2cd50f40ccaf3d6a4c7a883e5fc99d0ae93594b',
+                '_blank'
+            );
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }
+
+        function showError(message) {
+            stopCamera();
+            document.getElementById('scanner-section').style.display = 'none';
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('credentials-section').style.display = 'none';
+            document.getElementById('error-section').style.display = 'block';
+            document.getElementById('error-message').textContent = message;
+        }
+
+        function restartApp() {
+            stopCamera();
+            document.getElementById('scanner-section').style.display = 'none';
+            document.getElementById('credentials-section').style.display = 'none';
+            document.getElementById('error-section').style.display = 'none';
+            document.getElementById('welcome-section').style.display = 'block';
+            studentData = { username: '', password: '' };
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', stopCamera);
+    </script>
+</body>
+</html>
