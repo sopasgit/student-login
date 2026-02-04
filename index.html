@@ -151,14 +151,14 @@
             50% { transform: scale(1.05); }
         }
 
-        .open-google-button {
-            background: #FF9800;
+        .clever-button {
+            background: #FF6B6B;
             color: white;
             margin-top: 30px;
         }
 
-        .open-google-button:hover {
-            background: #F57C00;
+        .clever-button:hover {
+            background: #EE5A5A;
         }
 
         .start-button {
@@ -208,6 +208,12 @@
             font-weight: bold;
             border: 2px solid #666;
             box-shadow: 0 3px 0 #666;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #667eea, transparent);
+            margin: 30px 0;
         }
 
         #loading {
@@ -276,14 +282,14 @@
             <div class="welcome-message">👋 Welcome, <span id="student-name"></span>!</div>
             
             <div class="helper-text">
-                📋 Click the green buttons to copy, then paste into Google!
+                📋 Click the green buttons to copy, then paste into the login on the right →
             </div>
 
             <div class="credential-box">
-                <div class="credential-label">📧 Your Email</div>
+                <div class="credential-label">📧 Your Username</div>
                 <div class="credential-value" id="username-display"></div>
                 <button class="big-button copy-button" id="copy-username-btn" onclick="copyUsername()">
-                    <span class="icon">📋</span>Copy Email
+                    <span class="icon">📋</span>Copy Username
                 </button>
             </div>
 
@@ -297,13 +303,15 @@
 
             <div class="paste-instruction">
                 <strong>How to Paste:</strong><br>
-                Click in the box on Google, then press 
+                Click in the box on the login page, then press 
                 <span class="keyboard-visual">Ctrl</span> + <span class="keyboard-visual">V</span>
                 <br>or right-click and choose "Paste"
             </div>
 
-            <button class="big-button open-google-button" onclick="openGoogleLogin()">
-                <span class="icon">🚀</span>Open Google Sign In
+            <div class="divider"></div>
+
+            <button class="big-button clever-button" onclick="openClever()">
+                <span class="icon">📚</span>Open Clever
             </button>
 
             <button class="big-button restart-button" onclick="restartApp()">
@@ -325,8 +333,7 @@
         let scanning = false;
         let studentData = {
             username: '',
-            password: '',
-            firstName: ''
+            password: ''
         };
 
         async function startScanning() {
@@ -379,22 +386,13 @@
             scanning = false;
             
             try {
-                // Try to parse as JSON first
-                if (data.trim().startsWith('{')) {
-                    const parsed = JSON.parse(data);
-                    studentData.username = parsed.username || parsed.email || '';
-                    studentData.password = parsed.password || '';
-                    studentData.firstName = parsed.firstName || parsed.name || extractFirstName(studentData.username);
+                // Parse as username:password format (simple format without email suffix)
+                const parts = data.split(':');
+                if (parts.length >= 2) {
+                    studentData.username = parts[0].trim();
+                    studentData.password = parts.slice(1).join(':').trim();
                 } else {
-                    // Parse as username:password format
-                    const parts = data.split(':');
-                    if (parts.length >= 2) {
-                        studentData.username = parts[0].trim();
-                        studentData.password = parts.slice(1).join(':').trim();
-                        studentData.firstName = extractFirstName(studentData.username);
-                    } else {
-                        throw new Error('Invalid QR code format');
-                    }
+                    throw new Error('Invalid QR code format');
                 }
 
                 if (!studentData.username || !studentData.password) {
@@ -403,26 +401,35 @@
 
                 stopCamera();
                 showCredentials();
+                openOktaPopup();
             } catch (err) {
-                showError('Could not read QR code. Please make sure it contains username:password or valid JSON.');
+                showError('Could not read QR code. Please make sure it contains username:password format.');
                 console.error('QR parse error:', err);
             }
-        }
-
-        function extractFirstName(email) {
-            // Try to extract first name from email (e.g., emma.smith@domain.com -> Emma)
-            const username = email.split('@')[0];
-            const firstName = username.split('.')[0];
-            return firstName.charAt(0).toUpperCase() + firstName.slice(1);
         }
 
         function showCredentials() {
             document.getElementById('scanner-section').style.display = 'none';
             document.getElementById('credentials-section').style.display = 'block';
             
-            document.getElementById('student-name').textContent = studentData.firstName;
+            // Use username as the display name
+            document.getElementById('student-name').textContent = studentData.username;
             document.getElementById('username-display').textContent = studentData.username;
             document.getElementById('password-display').textContent = studentData.password;
+        }
+
+        function openOktaPopup() {
+            // Open Okta login in a popup window (50% width, positioned on right)
+            const width = Math.floor(screen.width * 0.5);
+            const height = screen.height - 100;
+            const left = screen.width - width;
+            const top = 50;
+            
+            window.open(
+                'https://spusd.okta.com/',
+                'OktaLogin',
+                `width=${width},height=${height},left=${left},top=${top},toolbar=yes,menubar=no,resizable=yes,scrollbars=yes`
+            );
         }
 
         async function copyUsername() {
@@ -430,7 +437,7 @@
                 await navigator.clipboard.writeText(studentData.username);
                 const btn = document.getElementById('copy-username-btn');
                 const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="icon">✅</span>Email Copied!';
+                btn.innerHTML = '<span class="icon">✅</span>Username Copied!';
                 btn.classList.add('copied');
                 
                 setTimeout(() => {
@@ -461,17 +468,11 @@
             }
         }
 
-        function openGoogleLogin() {
-            // Open Google login in a new window
-            const width = 600;
-            const height = 700;
-            const left = (screen.width - width) / 2;
-            const top = (screen.height - height) / 2;
-            
+        function openClever() {
+            // Open Clever in a new tab
             window.open(
-                'https://accounts.google.com/ServiceLogin?continue=https://drive.google.com',
-                'GoogleLogin',
-                `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no`
+                'https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&district_id=56d75df365a6bd0100000d35&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=abf28bf2d4128d386d6f4838c2cd50f40ccaf3d6a4c7a883e5fc99d0ae93594b',
+                '_blank'
             );
         }
 
@@ -497,7 +498,7 @@
             document.getElementById('credentials-section').style.display = 'none';
             document.getElementById('error-section').style.display = 'none';
             document.getElementById('welcome-section').style.display = 'block';
-            studentData = { username: '', password: '', firstName: '' };
+            studentData = { username: '', password: '' };
         }
 
         // Cleanup on page unload
@@ -505,3 +506,4 @@
     </script>
 </body>
 </html>
+
