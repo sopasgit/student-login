@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login Helper</title>
+    <title>Student Login - Start Here</title>
     <style>
         * {
             margin: 0;
@@ -25,485 +25,238 @@
             background: white;
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
-            padding: 40px;
+            padding: 60px 40px;
             text-align: center;
         }
 
         h1 {
             color: #667eea;
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: 3.5em;
+            margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        .step-indicator {
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            font-size: 1.5em;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        #scanner-section {
-            margin: 30px 0;
-        }
-
-        #video {
-            width: 100%;
-            max-width: 500px;
-            height: 375px;
-            border-radius: 20px;
-            border: 5px solid #667eea;
-            background: #000;
-            object-fit: cover;
-        }
-
-        #credentials-section {
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .welcome-message {
-            font-size: 2.5em;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .credential-box {
-            background: #f0f4ff;
-            padding: 25px;
-            border-radius: 20px;
-            margin: 20px 0;
-            border: 3px solid #667eea;
-        }
-
-        .credential-label {
-            font-size: 1.3em;
-            color: #666;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .credential-value {
-            font-size: 2em;
-            color: #333;
-            font-weight: bold;
-            margin: 15px 0;
-            word-break: break-all;
-        }
-
-        .big-button {
+        .subtitle {
             font-size: 1.8em;
-            padding: 20px 40px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin: 10px;
-            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .big-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-        .big-button:active {
-            transform: translateY(0);
-        }
-
-        .copy-button {
-            background: #4CAF50;
-            color: white;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .copy-button:hover {
-            background: #45a049;
-        }
-
-        .copy-button.copied {
-            background: #2196F3;
-            animation: pulse 0.5s;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .clever-button {
-            background: #FF6B6B;
-            color: white;
-            margin-top: 30px;
-        }
-
-        .clever-button:hover {
-            background: #EE5A5A;
+            color: #666;
+            margin-bottom: 50px;
+            line-height: 1.4;
         }
 
         .start-button {
             background: #667eea;
             color: white;
-            font-size: 2em;
-            padding: 25px 50px;
+            font-size: 2.5em;
+            padding: 30px 60px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
         }
 
         .start-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
             background: #5568d3;
         }
 
-        .icon {
-            font-size: 1.5em;
-            margin-right: 10px;
+        .start-button:active {
+            transform: translateY(-2px);
         }
 
-        .helper-text {
+        .icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .instructions {
+            background: #f0f4ff;
+            border: 3px solid #667eea;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 50px;
+            font-size: 1.3em;
+            color: #555;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .instructions ol {
+            margin-left: 25px;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin: 10px 0;
+        }
+
+        #status-message {
+            display: none;
+            background: #e7f3ff;
+            border: 3px solid #2196F3;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: #0d47a1;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .troubleshooting {
             background: #fff3cd;
             border: 3px solid #ffc107;
             border-radius: 15px;
             padding: 20px;
-            margin: 20px 0;
-            font-size: 1.3em;
+            margin-top: 30px;
+            font-size: 1.2em;
             color: #856404;
         }
 
-        .paste-instruction {
-            background: #e7f3ff;
-            border: 3px solid #2196F3;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 1.2em;
-            color: #0d47a1;
-        }
-
-        .keyboard-visual {
-            display: inline-block;
-            background: #333;
+        .reset-button {
+            background: #FF6B6B;
             color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            margin: 0 5px;
-            font-family: monospace;
-            font-weight: bold;
-            border: 2px solid #666;
-            box-shadow: 0 3px 0 #666;
-        }
-
-        .divider {
-            height: 2px;
-            background: linear-gradient(to right, transparent, #667eea, transparent);
-            margin: 30px 0;
-        }
-
-        #loading {
-            display: none;
             font-size: 1.5em;
-            color: #667eea;
-            margin: 20px 0;
-        }
-
-        .error-message {
-            background: #ffebee;
-            border: 3px solid #f44336;
-            color: #c62828;
-            padding: 20px;
+            padding: 15px 30px;
+            border: none;
             border-radius: 15px;
-            margin: 20px 0;
-            font-size: 1.3em;
-        }
-
-        .restart-button {
-            background: #667eea;
-            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
             margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            display: none;
         }
 
-        .checkmark {
-            color: #4CAF50;
-            font-size: 1.2em;
-            margin-left: 10px;
+        .reset-button:hover {
+            transform: translateY(-3px);
+            background: #EE5A5A;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             h1 {
+                font-size: 2.5em;
+            }
+            .start-button {
                 font-size: 2em;
-            }
-            .big-button {
-                font-size: 1.5em;
-                padding: 15px 30px;
-            }
-            .credential-value {
-                font-size: 1.5em;
+                padding: 25px 40px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎒 Student Login Helper</h1>
-        
-        <div id="welcome-section">
-            <div class="step-indicator">Step 1: Scan Your Badge</div>
-            <p style="font-size: 1.5em; margin: 20px 0; color: #666;">Hold your badge up to the camera!</p>
-            <button class="big-button start-button" onclick="startScanning()">
-                <span class="icon">📷</span>Start Camera
-            </button>
+        <h1>🎒 Student Login Station</h1>
+        <div class="subtitle">
+            Welcome! Click the button below to start your login.
         </div>
 
-        <div id="scanner-section" style="display: none;">
-            <div class="step-indicator">Hold your badge steady...</div>
-            <video id="video" autoplay playsinline></video>
-            <div id="loading">Looking for QR code...</div>
-            <canvas id="canvas" style="display: none;"></canvas>
+        <button class="start-button" onclick="startLogin()" id="start-btn">
+            <span class="icon">🚀</span>Start Login
+        </button>
+
+        <div id="status-message">
+            ✅ Login windows opened!<br>
+            Look for two windows side-by-side on your screen.
         </div>
 
-        <div id="credentials-section">
-            <div class="welcome-message">👋 Welcome, <span id="student-name"></span>!</div>
-            
-            <div class="helper-text">
-                📋 Click the green buttons to copy, then paste into the login on the right →
-            </div>
-
-            <div class="credential-box">
-                <div class="credential-label">📧 Your Username</div>
-                <div class="credential-value" id="username-display"></div>
-                <button class="big-button copy-button" id="copy-username-btn" onclick="copyUsername()">
-                    <span class="icon">📋</span>Copy Username
-                </button>
-            </div>
-
-            <div class="credential-box">
-                <div class="credential-label">🔑 Your Password</div>
-                <div class="credential-value" id="password-display"></div>
-                <button class="big-button copy-button" id="copy-password-btn" onclick="copyPassword()">
-                    <span class="icon">📋</span>Copy Password
-                </button>
-            </div>
-
-            <div class="paste-instruction">
-                <strong>How to Paste:</strong><br>
-                Click in the box on the login page, then press 
-                <span class="keyboard-visual">Ctrl</span> + <span class="keyboard-visual">V</span>
-                <br>or right-click and choose "Paste"
-            </div>
-
-            <div class="divider"></div>
-
-            <button class="big-button clever-button" onclick="openClever()">
-                <span class="icon">📚</span>Open Clever
-            </button>
-
-            <button class="big-button restart-button" onclick="restartApp()">
-                <span class="icon">🔄</span>Scan Another Badge
-            </button>
+        <div class="instructions">
+            <h3>📝 How to Use:</h3>
+            <ol>
+                <li>Click the <strong>"Start Login"</strong> button above</li>
+                <li>Two windows will open side-by-side:
+                    <ul>
+                        <li><strong>Left:</strong> Scan your badge and see your login info</li>
+                        <li><strong>Right:</strong> Type your username and password</li>
+                    </ul>
+                </li>
+                <li>Copy from the left window and paste into the right window</li>
+                <li>When done, click <strong>"Open Clever"</strong> to access your apps</li>
+            </ol>
         </div>
 
-        <div id="error-section" style="display: none;">
-            <div class="error-message" id="error-message"></div>
-            <button class="big-button restart-button" onclick="restartApp()">
-                <span class="icon">🔄</span>Try Again
-            </button>
+        <div class="troubleshooting">
+            <strong>⚠️ Can't see the windows?</strong><br>
+            They might be hidden or blocked by a popup blocker. Click the button below to try again.
         </div>
+
+        <button class="reset-button" onclick="location.reload()" id="reset-btn">
+            🔄 Start Over
+        </button>
     </div>
 
-    <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
     <script>
-        let stream = null;
-        let scanning = false;
-        let studentData = {
-            username: '',
-            password: ''
-        };
-
-        async function startScanning() {
+        function startLogin() {
             try {
-                document.getElementById('welcome-section').style.display = 'none';
-                document.getElementById('scanner-section').style.display = 'block';
-                document.getElementById('loading').style.display = 'block';
-
-                const video = document.getElementById('video');
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'environment' }
-                });
-                video.srcObject = stream;
-                scanning = true;
+                // Calculate window dimensions (50% of screen width each)
+                const windowWidth = Math.floor(screen.width * 0.5);
+                const windowHeight = screen.height - 100;
                 
-                video.onloadedmetadata = () => {
-                    scanQRCode();
-                };
-            } catch (err) {
-                showError('Camera access denied. Please allow camera access and try again.');
-                console.error('Camera error:', err);
-            }
-        }
+                // Left window - Student login helper
+                const leftWindow = window.open(
+                    'student-login-helper.html',
+                    'StudentHelper',
+                    `width=${windowWidth},height=${windowHeight},left=0,top=50,toolbar=no,menubar=no,resizable=yes,scrollbars=yes`
+                );
 
-        function scanQRCode() {
-            if (!scanning) return;
+                // Right window - Okta login
+                const rightWindow = window.open(
+                    'https://spusd.okta.com/',
+                    'OktaLogin',
+                    `width=${windowWidth},height=${windowHeight},left=${windowWidth},top=50,toolbar=yes,menubar=no,resizable=yes,scrollbars=yes`
+                );
 
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvas');
-            const context = canvas.getContext('2d');
-
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-                if (code) {
-                    handleQRCode(code.data);
-                    return;
-                }
-            }
-
-            requestAnimationFrame(scanQRCode);
-        }
-
-        function handleQRCode(data) {
-            scanning = false;
-            
-            try {
-                // Parse as username:password format (simple format without email suffix)
-                const parts = data.split(':');
-                if (parts.length >= 2) {
-                    studentData.username = parts[0].trim();
-                    studentData.password = parts.slice(1).join(':').trim();
+                // Check if windows opened successfully
+                if (leftWindow && rightWindow) {
+                    // Show success message
+                    document.getElementById('status-message').style.display = 'block';
+                    document.getElementById('reset-btn').style.display = 'inline-block';
+                    
+                    // Change button text
+                    const startBtn = document.getElementById('start-btn');
+                    startBtn.innerHTML = '<span class="icon">✅</span>Windows Opened!';
+                    startBtn.style.background = '#4CAF50';
+                    
+                    // Try to focus the left window (student helper)
+                    setTimeout(() => {
+                        if (leftWindow && !leftWindow.closed) {
+                            leftWindow.focus();
+                        }
+                    }, 500);
                 } else {
-                    throw new Error('Invalid QR code format');
+                    // Popup blocked
+                    alert('⚠️ Popup blocker detected!\n\nPlease allow popups for this site and try again.\n\nLook for a popup blocker icon in your address bar.');
                 }
+            } catch (error) {
+                console.error('Error opening windows:', error);
+                alert('Could not open login windows. Please make sure popups are allowed.');
+            }
+        }
 
-                if (!studentData.username || !studentData.password) {
-                    throw new Error('Missing username or password');
+        // Keyboard shortcut - press Enter to start
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                const startBtn = document.getElementById('start-btn');
+                if (startBtn.textContent.includes('Start Login')) {
+                    startLogin();
                 }
-
-                stopCamera();
-                showCredentials();
-                openOktaPopup();
-            } catch (err) {
-                showError('Could not read QR code. Please make sure it contains username:password format.');
-                console.error('QR parse error:', err);
             }
-        }
-
-        function showCredentials() {
-            document.getElementById('scanner-section').style.display = 'none';
-            document.getElementById('credentials-section').style.display = 'block';
-            
-            // Use username as the display name
-            document.getElementById('student-name').textContent = studentData.username;
-            document.getElementById('username-display').textContent = studentData.username;
-            document.getElementById('password-display').textContent = studentData.password;
-        }
-
-        function openOktaPopup() {
-            // Open Okta login in a popup window (50% width, positioned on right)
-            const width = Math.floor(screen.width * 0.5);
-            const height = screen.height - 100;
-            const left = screen.width - width;
-            const top = 50;
-            
-            window.open(
-                'https://spusd.okta.com/',
-                'OktaLogin',
-                `width=${width},height=${height},left=${left},top=${top},toolbar=yes,menubar=no,resizable=yes,scrollbars=yes`
-            );
-        }
-
-        async function copyUsername() {
-            try {
-                await navigator.clipboard.writeText(studentData.username);
-                const btn = document.getElementById('copy-username-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="icon">✅</span>Username Copied!';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                alert('Copy failed. Please try again.');
-                console.error('Copy error:', err);
-            }
-        }
-
-        async function copyPassword() {
-            try {
-                await navigator.clipboard.writeText(studentData.password);
-                const btn = document.getElementById('copy-password-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="icon">✅</span>Password Copied!';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                alert('Copy failed. Please try again.');
-                console.error('Copy error:', err);
-            }
-        }
-
-        function openClever() {
-            // Open Clever in a new tab
-            window.open(
-                'https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&district_id=56d75df365a6bd0100000d35&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=abf28bf2d4128d386d6f4838c2cd50f40ccaf3d6a4c7a883e5fc99d0ae93594b',
-                '_blank'
-            );
-        }
-
-        function stopCamera() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-        }
-
-        function showError(message) {
-            stopCamera();
-            document.getElementById('scanner-section').style.display = 'none';
-            document.getElementById('welcome-section').style.display = 'none';
-            document.getElementById('credentials-section').style.display = 'none';
-            document.getElementById('error-section').style.display = 'block';
-            document.getElementById('error-message').textContent = message;
-        }
-
-        function restartApp() {
-            stopCamera();
-            document.getElementById('scanner-section').style.display = 'none';
-            document.getElementById('credentials-section').style.display = 'none';
-            document.getElementById('error-section').style.display = 'none';
-            document.getElementById('welcome-section').style.display = 'block';
-            studentData = { username: '', password: '' };
-        }
-
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', stopCamera);
+        });
     </script>
 </body>
 </html>
-
