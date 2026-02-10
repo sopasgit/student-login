@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Login Helper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,317 +14,539 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+            background: #1a1a2e;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.1) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(2deg); }
+            66% { transform: translate(-20px, 20px) rotate(-1deg); }
         }
 
         .container {
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            box-shadow: 
+                0 24px 80px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            max-width: 700px;
             width: 100%;
-            padding: 40px;
+            padding: 48px 40px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-            color: #667eea;
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 2.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24, #f9ca24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 32px;
+            font-weight: 400;
         }
 
         .step-indicator {
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            font-size: 1.5em;
-            color: #667eea;
-            font-weight: bold;
+            background: linear-gradient(135deg, #f8f9ff, #eef1ff);
+            padding: 14px 24px;
+            border-radius: 16px;
+            margin-bottom: 28px;
+            font-size: 1.3em;
+            color: #5a67d8;
+            font-weight: 600;
+            border: 2px solid #e2e6ff;
         }
 
+        /* Scanner Section */
         #scanner-section {
-            margin: 30px 0;
+            margin: 24px 0;
         }
 
         #video {
             width: 100%;
-            max-width: 500px;
-            height: 375px;
-            border-radius: 20px;
-            border: 5px solid #667eea;
+            max-width: 440px;
+            height: 330px;
+            border-radius: 24px;
+            border: 4px solid #5a67d8;
             background: #000;
             object-fit: cover;
-        }
-
-        #credentials-section {
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .welcome-message {
-            font-size: 2.5em;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .credential-box {
-            background: #f0f4ff;
-            padding: 25px;
-            border-radius: 20px;
-            margin: 20px 0;
-            border: 3px solid #667eea;
-        }
-
-        .credential-label {
-            font-size: 1.3em;
-            color: #666;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .credential-value {
-            font-size: 2em;
-            color: #333;
-            font-weight: bold;
-            margin: 15px 0;
-            word-break: break-all;
-        }
-
-        .big-button {
-            font-size: 1.8em;
-            padding: 20px 40px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin: 10px;
-            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .big-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-        .big-button:active {
-            transform: translateY(0);
-        }
-
-        .copy-button {
-            background: #4CAF50;
-            color: white;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .copy-button:hover {
-            background: #45a049;
-        }
-
-        .copy-button.copied {
-            background: #2196F3;
-            animation: pulse 0.5s;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .clever-button {
-            background: #FF6B6B;
-            color: white;
-            margin-top: 30px;
-        }
-
-        .clever-button:hover {
-            background: #EE5A5A;
-        }
-
-        .start-button {
-            background: #667eea;
-            color: white;
-            font-size: 2em;
-            padding: 25px 50px;
-        }
-
-        .start-button:hover {
-            background: #5568d3;
-        }
-
-        .icon {
-            font-size: 1.5em;
-            margin-right: 10px;
-        }
-
-        .helper-text {
-            background: #fff3cd;
-            border: 3px solid #ffc107;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            font-size: 1.3em;
-            color: #856404;
-        }
-
-        .paste-instruction {
-            background: #e7f3ff;
-            border: 3px solid #2196F3;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 1.2em;
-            color: #0d47a1;
-        }
-
-        .keyboard-visual {
-            display: inline-block;
-            background: #333;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            margin: 0 5px;
-            font-family: monospace;
-            font-weight: bold;
-            border: 2px solid #666;
-            box-shadow: 0 3px 0 #666;
-        }
-
-        .divider {
-            height: 2px;
-            background: linear-gradient(to right, transparent, #667eea, transparent);
-            margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(90, 103, 216, 0.3);
         }
 
         #loading {
             display: none;
-            font-size: 1.5em;
-            color: #667eea;
-            margin: 20px 0;
-        }
-
-        .error-message {
-            background: #ffebee;
-            border: 3px solid #f44336;
-            color: #c62828;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
             font-size: 1.3em;
+            color: #5a67d8;
+            margin: 16px 0;
+            font-weight: 500;
         }
 
-        .restart-button {
-            background: #667eea;
+        #loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+        }
+
+        canvas { display: none; }
+
+        /* Buttons */
+        .big-button {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6em;
+            padding: 20px 44px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .big-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .big-button:active {
+            transform: translateY(-1px);
+        }
+
+        .start-camera-btn {
+            background: linear-gradient(135deg, #5a67d8, #4c51bf);
             color: white;
-            margin-top: 20px;
+            font-size: 1.8em;
+            padding: 24px 52px;
         }
 
-        .checkmark {
-            color: #4CAF50;
+        .start-camera-btn:hover {
+            background: linear-gradient(135deg, #4c51bf, #434190);
+        }
+
+        /* Credentials Section */
+        #credentials-section {
+            display: none;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-message {
+            font-size: 2.4em;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .welcome-message span {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ready-text {
+            font-size: 1.3em;
+            color: #718096;
+            margin-bottom: 32px;
+        }
+
+        /* The big login button - this is the star of the show */
+        .login-now-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            font-size: 2.2em;
+            padding: 28px 64px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(72, 187, 120, 0.4);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-now-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2.5s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+
+        .login-now-btn:hover {
+            background: linear-gradient(135deg, #38a169, #2f855a);
+            box-shadow: 0 12px 40px rgba(72, 187, 120, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .login-now-btn.clicked {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            box-shadow: 0 8px 32px rgba(66, 153, 225, 0.4);
+        }
+
+        .status-message {
+            background: linear-gradient(135deg, #ebf8ff, #e2f0ff);
+            border: 2px solid #90cdf4;
+            border-radius: 16px;
+            padding: 18px;
+            margin-top: 20px;
             font-size: 1.2em;
-            margin-left: 10px;
+            color: #2b6cb0;
+            font-weight: 500;
+            display: none;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fffff0, #fefcbf);
+            border: 2px solid #ecc94b;
+            border-radius: 16px;
+            padding: 18px;
+            margin: 24px 0;
+            font-size: 1.15em;
+            color: #744210;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+            margin: 28px 0;
+        }
+
+        .clever-btn {
+            background: linear-gradient(135deg, #ed64a6, #d53f8c);
+            color: white;
+            font-size: 1.6em;
+            padding: 20px 44px;
+        }
+
+        .clever-btn:hover {
+            background: linear-gradient(135deg, #d53f8c, #b83280);
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #a0aec0, #718096);
+            color: white;
+            font-size: 1.2em;
+            padding: 14px 32px;
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(135deg, #718096, #4a5568);
+        }
+
+        /* Fallback copy section - shown if extension isn't detected */
+        .fallback-section {
+            display: none;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .fallback-section.visible {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .fallback-title {
+            font-size: 1.1em;
+            color: #a0aec0;
+            margin-bottom: 16px;
+        }
+
+        .credential-box {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 14px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .credential-label {
+            font-size: 1em;
+            color: #a0aec0;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .credential-value {
+            font-size: 1.5em;
+            color: #2d3748;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            font-size: 1.2em;
+            padding: 12px 28px;
+            margin-top: 8px;
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+        }
+
+        .paste-hint {
+            background: #ebf8ff;
+            border: 2px solid #90cdf4;
+            border-radius: 12px;
+            padding: 14px;
+            margin: 12px 0;
+            font-size: 1.05em;
+            color: #2b6cb0;
+        }
+
+        .kbd {
+            display: inline-block;
+            background: #2d3748;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.95em;
+            border-bottom: 3px solid #1a202c;
+            margin: 0 3px;
+        }
+
+        /* Error Section */
+        .error-message {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            border: 2px solid #fc8181;
+            color: #c53030;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        /* Manual Entry Section */
+        #manual-section {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .manual-input {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4em;
+            padding: 16px 20px;
+            border: 3px solid #e2e8f0;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 400px;
+            margin: 10px 0;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .manual-input:focus {
+            outline: none;
+            border-color: #5a67d8;
+            box-shadow: 0 0 0 4px rgba(90, 103, 216, 0.15);
+        }
+
+        .or-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: #a0aec0;
+            font-size: 1.1em;
+        }
+
+        .or-divider::before,
+        .or-divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: #e2e8f0;
         }
 
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
-            .big-button {
-                font-size: 1.5em;
-                padding: 15px 30px;
-            }
-            .credential-value {
-                font-size: 1.5em;
-            }
+            .container { padding: 32px 24px; }
+            h1 { font-size: 2.2em; }
+            .big-button { font-size: 1.3em; padding: 16px 32px; }
+            .login-now-btn { font-size: 1.8em; padding: 22px 40px; }
+            .welcome-message { font-size: 1.8em; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎒 Student Login Helper</h1>
-        
+        <p class="subtitle">Scan your badge to get started!</p>
+
+        <!-- STEP 1: Welcome / Start -->
         <div id="welcome-section">
-            <div class="step-indicator">Step 1: Scan Your Badge</div>
-            <p style="font-size: 1.5em; margin: 20px 0; color: #666;">Hold your badge up to the camera!</p>
-            <button class="big-button start-button" onclick="startScanning()">
-                <span class="icon">📷</span>Start Camera
+            <div class="step-indicator">📷 Step 1: Scan Your Badge</div>
+            <p style="font-size: 1.3em; margin: 20px 0; color: #718096;">
+                Hold your badge up to the camera!
+            </p>
+            <button class="big-button start-camera-btn" onclick="startScanning()">
+                📷 Start Camera
+            </button>
+
+            <div class="or-divider">or</div>
+
+            <button class="big-button restart-btn" onclick="showManualEntry()" style="background: linear-gradient(135deg, #5a67d8, #4c51bf);">
+                ⌨️ Type Student ID
             </button>
         </div>
 
-        <div id="scanner-section" style="display: none;">
-            <div class="step-indicator">Hold your badge steady...</div>
-            <video id="video" autoplay playsinline></video>
-            <div id="loading">Looking for QR code...</div>
-            <canvas id="canvas" style="display: none;"></canvas>
+        <!-- Manual Entry Section -->
+        <div id="manual-section">
+            <div class="step-indicator">⌨️ Type Student ID Number</div>
+            <p style="font-size: 1.2em; margin: 16px 0; color: #718096;">
+                Enter the student's ID number from their badge
+            </p>
+            <input type="text" class="manual-input" id="manual-id" 
+                   placeholder="Student ID #" 
+                   autocomplete="off" autofocus>
+            <br>
+            <button class="big-button" onclick="lookupManualId()" 
+                    style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; font-size: 1.4em;">
+                🔍 Look Up Student
+            </button>
+            <br>
+            <button class="big-button restart-btn" onclick="restartApp()" style="margin-top: 12px;">
+                ← Go Back
+            </button>
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>Note:</strong> Manual lookup requires a student database to be configured. 
+                If not set up, use the QR badge scanner instead.
+            </div>
         </div>
 
+        <!-- STEP 2: Camera / Scanner -->
+        <div id="scanner-section" style="display: none;">
+            <div class="step-indicator">📸 Hold your badge steady...</div>
+            <video id="video" autoplay playsinline></video>
+            <div id="loading">Looking for QR code</div>
+            <canvas id="canvas"></canvas>
+            <br>
+            <button class="big-button restart-btn" onclick="restartApp()" style="margin-top: 12px;">
+                ← Go Back
+            </button>
+        </div>
+
+        <!-- STEP 3: Credentials Found - One Button Login -->
         <div id="credentials-section">
-            <div class="welcome-message">👋 Welcome, <span id="student-name"></span>!</div>
-            
-            <div class="helper-text">
-                📋 Click the green buttons to copy, then paste into the login on the right →
+            <div class="welcome-message">
+                👋 Hi, <span id="student-name"></span>!
+            </div>
+            <p class="ready-text">Your login is ready. Press the big green button!</p>
+
+            <button class="big-button login-now-btn" id="login-btn" onclick="loginNow()">
+                🚀 Log Me In!
+            </button>
+
+            <div class="status-message" id="status-msg">
+                ✅ Okta is opening — your username and password will fill in automatically!
             </div>
 
-            <div class="credential-box">
-                <div class="credential-label">📧 Your Username</div>
-                <div class="credential-value" id="username-display"></div>
-                <button class="big-button copy-button" id="copy-username-btn" onclick="copyUsername()">
-                    <span class="icon">📋</span>Copy Username
-                </button>
+            <div class="info-box" id="extension-check" style="display: none;">
+                ⚠️ The auto-fill extension wasn't detected. You may need to copy and paste manually below.
             </div>
 
-            <div class="credential-box">
-                <div class="credential-label">🔑 Your Password</div>
-                <div class="credential-value" id="password-display"></div>
-                <button class="big-button copy-button" id="copy-password-btn" onclick="copyPassword()">
-                    <span class="icon">📋</span>Copy Password
-                </button>
-            </div>
+            <!-- Fallback: manual copy/paste if extension doesn't work -->
+            <div class="fallback-section" id="fallback">
+                <p class="fallback-title">📋 Manual copy & paste (if auto-fill didn't work)</p>
 
-            <div class="paste-instruction">
-                <strong>How to Paste:</strong><br>
-                Click in the box on the login page, then press 
-                <span class="keyboard-visual">Ctrl</span> + <span class="keyboard-visual">V</span>
-                <br>or right-click and choose "Paste"
+                <div class="credential-box">
+                    <div class="credential-label">👤 Username</div>
+                    <div class="credential-value" id="username-display"></div>
+                    <button class="big-button copy-btn" id="copy-user-btn" onclick="copyUsername()">
+                        📋 Copy Username
+                    </button>
+                </div>
+
+                <div class="credential-box">
+                    <div class="credential-label">🔑 Password</div>
+                    <div class="credential-value" id="password-display"></div>
+                    <button class="big-button copy-btn" id="copy-pass-btn" onclick="copyPassword()">
+                        📋 Copy Password
+                    </button>
+                </div>
+
+                <div class="paste-hint">
+                    <strong>How to Paste:</strong> Click in the box on Okta, then press
+                    <span class="kbd">Ctrl</span> + <span class="kbd">V</span>
+                </div>
             </div>
 
             <div class="divider"></div>
 
-            <button class="big-button clever-button" onclick="openClever()">
-                <span class="icon">📚</span>Open Clever
+            <button class="big-button clever-btn" onclick="openClever()">
+                📚 Open Clever
             </button>
 
-            <button class="big-button restart-button" onclick="restartApp()">
-                <span class="icon">🔄</span>Scan Another Badge
+            <button class="big-button restart-btn" onclick="restartApp()">
+                🔄 Scan Another Badge
             </button>
         </div>
 
+        <!-- Error -->
         <div id="error-section" style="display: none;">
             <div class="error-message" id="error-message"></div>
-            <button class="big-button restart-button" onclick="restartApp()">
-                <span class="icon">🔄</span>Try Again
+            <button class="big-button restart-btn" onclick="restartApp()" style="margin-top: 16px;">
+                🔄 Try Again
             </button>
         </div>
     </div>
@@ -331,14 +555,14 @@
     <script>
         let stream = null;
         let scanning = false;
-        let studentData = {
-            username: '',
-            password: ''
-        };
+        let studentData = { username: '', password: '' };
+
+        // ─── Camera & QR Scanning ───────────────────────────────
 
         async function startScanning() {
             try {
                 document.getElementById('welcome-section').style.display = 'none';
+                document.getElementById('manual-section').style.display = 'none';
                 document.getElementById('scanner-section').style.display = 'block';
                 document.getElementById('loading').style.display = 'block';
 
@@ -348,7 +572,7 @@
                 });
                 video.srcObject = stream;
                 scanning = true;
-                
+
                 video.onloadedmetadata = () => {
                     scanQRCode();
                 };
@@ -369,7 +593,7 @@
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
+
                 const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
                 const code = jsQR(imageData.data, imageData.width, imageData.height);
 
@@ -384,9 +608,8 @@
 
         function handleQRCode(data) {
             scanning = false;
-            
+
             try {
-                // Parse as username:password format (simple format without email suffix)
                 const parts = data.split(':');
                 if (parts.length >= 2) {
                     studentData.username = parts[0].trim();
@@ -407,54 +630,185 @@
             }
         }
 
+        // ─── Manual Entry ───────────────────────────────────────
+
+        function showManualEntry() {
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('manual-section').style.display = 'block';
+            document.getElementById('manual-id').focus();
+        }
+
+        function lookupManualId() {
+            const studentId = document.getElementById('manual-id').value.trim();
+            if (!studentId) {
+                alert('Please enter a student ID number.');
+                return;
+            }
+            // Placeholder: In a real setup, this would look up the student
+            // from a local JSON file or a simple server endpoint.
+            // For now, show an informational message.
+            alert('Manual lookup is not yet configured.\n\nTo enable this, add a student database (JSON file or server endpoint) with ID-to-credentials mapping.');
+        }
+
+        // Allow Enter key in manual input
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('manual-id');
+            if (input) {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') lookupManualId();
+                });
+            }
+        });
+
+        // ─── Show Credentials & Auto-Login ──────────────────────
+
         function showCredentials() {
             document.getElementById('scanner-section').style.display = 'none';
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('manual-section').style.display = 'none';
             document.getElementById('credentials-section').style.display = 'block';
-            
-            // Use username as the display name
+
             document.getElementById('student-name').textContent = studentData.username;
             document.getElementById('username-display').textContent = studentData.username;
             document.getElementById('password-display').textContent = studentData.password;
         }
 
+        // ─── Extension Communication ────────────────────────────
+
+        // IMPORTANT: Replace this with your actual extension ID after loading it.
+        // To find it: load the extension unpacked in Chrome → go to chrome://extensions → copy the ID
+        const EXTENSION_ID = 'nlejbpalpmlgfefeeejhpijiffoakldh';
+
+        let extensionDetected = false;
+
+        // Check if the extension is installed on page load
+        function checkExtension() {
+            if (typeof chrome === 'undefined' || !chrome.runtime || !chrome.runtime.sendMessage) {
+                console.log('[Helper] Chrome extension API not available');
+                return;
+            }
+
+            try {
+                chrome.runtime.sendMessage(EXTENSION_ID, { type: 'CHECK_EXTENSION' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        console.log('[Helper] Extension not detected:', chrome.runtime.lastError.message);
+                        return;
+                    }
+                    if (response && response.installed) {
+                        extensionDetected = true;
+                        console.log('[Helper] Extension detected! Version:', response.version);
+                    }
+                });
+            } catch (e) {
+                console.log('[Helper] Extension check failed:', e);
+            }
+        }
+
+        // Run extension check on load
+        setTimeout(checkExtension, 500);
+
+        function loginNow() {
+            const btn = document.getElementById('login-btn');
+
+            // If extension is available, send credentials through it
+            if (extensionDetected && typeof chrome !== 'undefined' && chrome.runtime) {
+                btn.innerHTML = '⏳ Sending credentials...';
+
+                chrome.runtime.sendMessage(EXTENSION_ID, {
+                    type: 'SET_CREDENTIALS',
+                    username: studentData.username,
+                    password: studentData.password
+                }, (response) => {
+                    if (chrome.runtime.lastError || !response || !response.success) {
+                        console.log('[Helper] Extension send failed, falling back');
+                        openOktaWithFallback();
+                        return;
+                    }
+
+                    console.log('[Helper] Credentials sent to extension');
+
+                    // Open Okta — the extension will auto-fill
+                    window.open('https://spusd.okta.com/', '_blank');
+
+                    btn.innerHTML = '✅ Okta is opening!';
+                    btn.classList.add('clicked');
+                    document.getElementById('status-msg').style.display = 'block';
+
+                    // Show fallback after 6 seconds just in case
+                    setTimeout(() => {
+                        document.getElementById('fallback').classList.add('visible');
+                    }, 6000);
+                });
+            } else {
+                // Extension not available — use fallback
+                console.log('[Helper] Extension not detected, using fallback');
+                openOktaWithFallback();
+            }
+        }
+
+        function openOktaWithFallback() {
+            // Open Okta
+            window.open('https://spusd.okta.com/', '_blank');
+
+            // Update UI
+            const btn = document.getElementById('login-btn');
+            btn.innerHTML = '✅ Okta Opened!';
+            btn.classList.add('clicked');
+
+            // Show the manual copy/paste section immediately
+            document.getElementById('extension-check').style.display = 'block';
+            document.getElementById('fallback').classList.add('visible');
+            document.getElementById('status-msg').style.display = 'none';
+        }
+
+        // ─── Fallback Copy Functions ────────────────────────────
+
         async function copyUsername() {
             try {
                 await navigator.clipboard.writeText(studentData.username);
-                const btn = document.getElementById('copy-username-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="icon">✅</span>Username Copied!';
+                const btn = document.getElementById('copy-user-btn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
                 btn.classList.add('copied');
-                
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
+                    btn.innerHTML = original;
                     btn.classList.remove('copied');
                 }, 2000);
             } catch (err) {
-                alert('Copy failed. Please try again.');
-                console.error('Copy error:', err);
+                fallbackCopy(studentData.username);
             }
         }
 
         async function copyPassword() {
             try {
                 await navigator.clipboard.writeText(studentData.password);
-                const btn = document.getElementById('copy-password-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="icon">✅</span>Password Copied!';
+                const btn = document.getElementById('copy-pass-btn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
                 btn.classList.add('copied');
-                
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
+                    btn.innerHTML = original;
                     btn.classList.remove('copied');
                 }, 2000);
             } catch (err) {
-                alert('Copy failed. Please try again.');
-                console.error('Copy error:', err);
+                fallbackCopy(studentData.password);
             }
         }
 
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        // ─── Navigation ─────────────────────────────────────────
+
         function openClever() {
-            // Open Clever in a new tab
             window.open(
                 'https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&district_id=56d75df365a6bd0100000d35&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=abf28bf2d4128d386d6f4838c2cd50f40ccaf3d6a4c7a883e5fc99d0ae93594b',
                 '_blank'
@@ -472,6 +826,7 @@
             stopCamera();
             document.getElementById('scanner-section').style.display = 'none';
             document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('manual-section').style.display = 'none';
             document.getElementById('credentials-section').style.display = 'none';
             document.getElementById('error-section').style.display = 'block';
             document.getElementById('error-message').textContent = message;
@@ -482,12 +837,22 @@
             document.getElementById('scanner-section').style.display = 'none';
             document.getElementById('credentials-section').style.display = 'none';
             document.getElementById('error-section').style.display = 'none';
+            document.getElementById('manual-section').style.display = 'none';
             document.getElementById('welcome-section').style.display = 'block';
+            document.getElementById('fallback').classList.remove('visible');
+            document.getElementById('status-msg').style.display = 'none';
+            
+            // Reset login button
+            const btn = document.getElementById('login-btn');
+            btn.innerHTML = '🚀 Log Me In!';
+            btn.classList.remove('clicked');
+
             studentData = { username: '', password: '' };
         }
 
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', stopCamera);
+        window.addEventListener('beforeunload', () => {
+            stopCamera();
+        });
     </script>
 </body>
 </html>
